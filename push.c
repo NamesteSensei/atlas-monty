@@ -1,4 +1,5 @@
 #include "monty.h"
+#include <ctype.h>
 
 /**
  * push - pushes an element to the stack
@@ -8,10 +9,20 @@
  */
 void push(stack_t **stack, unsigned int line_number, char *arg)
 {
-    int n;
     stack_t *new_node;
+    char *endptr;
+    long n;
 
-    if (!arg || (n = atoi(arg)) == 0)
+    if (!arg)
+    {
+        fprintf(stderr, "L%u: usage: push integer\n", line_number);
+        exit(EXIT_FAILURE);
+    }
+
+    n = strtol(arg, &endptr, 10);
+
+    /* Check if the conversion was successful */
+    if (*endptr != '\0' || endptr == arg || n > INT_MAX || n < INT_MIN)
     {
         fprintf(stderr, "L%u: usage: push integer\n", line_number);
         exit(EXIT_FAILURE);
@@ -24,7 +35,7 @@ void push(stack_t **stack, unsigned int line_number, char *arg)
         exit(EXIT_FAILURE);
     }
 
-    new_node->n = n;
+    new_node->n = (int)n;
     new_node->prev = NULL;
     new_node->next = *stack;
     if (*stack)
