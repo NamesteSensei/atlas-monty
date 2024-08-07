@@ -1,5 +1,6 @@
 #include "monty.h"
 #include <ctype.h>
+#include <limits.h>  /* Add this line to include INT_MAX and INT_MIN */
 
 /**
  * push - pushes an element to the stack
