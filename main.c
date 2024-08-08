@@ -1,85 +1,53 @@
-#include "monty.h"
-
-stack_t *global_stack = NULL;
-
-/**
- * execute - executes the opcode
- * @line: line from the file
- * @stack: double pointer to the head of the stack
- * @line_number: line number of the opcode in the file
- */
-void execute(char *line, stack_t **stack, unsigned int line_number)
-{
-    char *opcode;
-    char *arg;
-    instruction_t instructions[] = {
-        {"push", NULL},
-        {"pall", pall},
-        {NULL, NULL}
-    };
-    int i = 0;
-
-    opcode = strtok(line, " \n");
-    if (!opcode || opcode[0] == '#')
-        return;
-
-    if (strcmp(opcode, "push") == 0)
-    {
-        arg = strtok(NULL, " \n");
-        push(stack, line_number, arg);
-    }
-    else
-    {
-        while (instructions[i].opcode)
-        {
-            if (strcmp(instructions[i].opcode, opcode) == 0)
-            {
-                instructions[i].f(stack, line_number);
-                return;
-            }
-            i++;
-        }
-        fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
-        exit(EXIT_FAILURE);
-    }
-}
+#include "monty.h"    /* Include the header file that contains function prototypes and definitions */
+#include <stdio.h>    /* Include standard input/output functions */
+#include <stdlib.h>   /* Include standard library functions, including malloc and exit */
 
 /**
- * main - entry point of the program
- * @argc: argument count
- * @argv: argument vector
- *
- * Return: 0 on success, or exit with failure
+ * main - entry point of the Monty interpreter
+ * @argc: argument count (number of command-line arguments)
+ * @argv: argument vector (array of command-line argument strings)
+ * Return: EXIT_SUCCESS on success, EXIT_FAILURE on failure
  */
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
-    FILE *file;
-    char *line = NULL;
-    size_t len = 0;
-    unsigned int line_number = 0;
+    FILE *file;    /* File pointer to handle the Monty bytecode file */
+    char *line = NULL;    /* Pointer to hold each line read from the file */
+    size_t len = 0;    /* Variable to hold the length of each line */
+    ssize_t read;    /* Variable to store the number of characters read */
 
+    /* Check if the number of arguments is exactly 2 */
     if (argc != 2)
     {
+        /* Print error message if the argument count is incorrect */
         fprintf(stderr, "USAGE: monty file\n");
+        /* Exit the program with status EXIT_FAILURE to indicate an error */
         exit(EXIT_FAILURE);
     }
 
+    /* Open the file provided as argument for reading */
     file = fopen(argv[1], "r");
-    if (!file)
+    if (file == NULL)
     {
+        /* Print an error message if the file cannot be opened */
         fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
+        /* Exit the program with status EXIT_FAILURE to indicate an error */
         exit(EXIT_FAILURE);
     }
 
-    while (getline(&line, &len, file) != -1)
+    /* Process the file line by line */
+    while ((read = getline(&line, &len, file)) != -1)
     {
-        line_number++;
-        execute(line, &global_stack, line_number);
+        /* Tokenize the line and process instructions here */
+        /* You would typically parse the line and call the appropriate functions */
     }
 
+    /* Free the memory allocated for the line buffer */
     free(line);
+
+    /* Close the file when done */
     fclose(file);
-    free_stack(global_stack);
-    return (0);
+
+    /* Return EXIT_SUCCESS to indicate successful execution */
+    return (EXIT_SUCCESS);
 }
 
