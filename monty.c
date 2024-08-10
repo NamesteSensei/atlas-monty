@@ -1,11 +1,17 @@
 #include "monty.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-int main(int argc, char **argv)
+/**
+ * main - Entry point for Monty interpreter
+ * @argc: Argument count
+ * @argv: Argument vector
+ *
+ * Return: EXIT_SUCCESS on success, EXIT_FAILURE on error
+ */
+int main(int argc, char *argv[])
 {
     FILE *file;
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t read;
 
     if (argc != 2)
     {
@@ -20,14 +26,9 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
 
-    /* Process each line of the file */
-    while ((read = getline(&line, &len, file)) != -1)
-    {
-        /* Handle opcodes here (to be implemented) */
-    }
+    /* Add further code for reading file and executing instructions */
 
-    free(line);
     fclose(file);
-    return 0;
+    return (EXIT_SUCCESS);
 }
 
