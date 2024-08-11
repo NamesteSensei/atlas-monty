@@ -22,6 +22,7 @@ typedef struct instruction_s
 /* Function Prototypes */
 void push(stack_t **stack, unsigned int line_number, int n);
 void pall(stack_t **stack, unsigned int line_number);
+void pint(stack_t **stack, unsigned int line_number);
 void execute(char *file_name);
 int is_digit(char *str);
 void free_stack(stack_t *stack);
