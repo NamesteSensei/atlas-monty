@@ -21,6 +21,39 @@ int main(int argc, char *argv[])
 }
 
 /**
+ * handle_opcode - Processes an opcode and performs the corresponding action.
+ * @opcode: The opcode to process.
+ * @stack: Double pointer to the top of the stack.
+ * @line_number: The current line number in the bytecode file.
+ * @arg: The argument for the opcode, if any.
+ *
+ * Description: This function processes the given opcode and performs the
+ * corresponding action on the stack. If the opcode is unknown, an error
+ * message is printed, and the program exits.
+ */
+void handle_opcode(char *opcode, stack_t **stack,
+				   unsigned int line_number, char *arg)
+{
+	if (strcmp(opcode, "push") == 0)
+	{
+		if (arg && is_digit(arg))
+			push(stack, line_number, atoi(arg));
+		else
+			handle_error(line_number, "usage: push integer");
+	}
+	else if (strcmp(opcode, "pall") == 0)
+	{
+		pall(stack, line_number);
+	}
+	else
+	{
+		fprintf(stderr, "L%u: unknown instruction %s\n",
+				line_number, opcode);
+		exit(EXIT_FAILURE);
+	}
+}
+
+/**
  * execute - Executes the bytecodes in the file.
  * @file_name: Name of the file to be executed.
  *
@@ -37,7 +70,6 @@ void execute(char *file_name)
 	stack_t *stack = NULL;
 	unsigned int line_number = 0;
 
-	/* Blank line added after declarations */
 	file = fopen(file_name, "r");
 	if (file == NULL)
 	{
@@ -45,6 +77,7 @@ void execute(char *file_name)
 		exit(EXIT_FAILURE);
 	}
 
+	/* Add a blank line after declarations */
 	while ((read = getline(&line, &len, file)) != -1)
 	{
 		line_number++;
@@ -62,5 +95,4 @@ void execute(char *file_name)
 	fclose(file);
 	free_stack(stack);
 }
-
 

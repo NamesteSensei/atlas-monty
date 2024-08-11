@@ -26,6 +26,7 @@ void execute(char *file_name);
 int is_digit(char *str);
 void free_stack(stack_t *stack);
 void handle_error(unsigned int line_number, const char *message);
+void handle_opcode(char *opcode, stack_t **stack, unsigned int line_number, char *arg);
 
 #endif /* MONTY_H */
 
