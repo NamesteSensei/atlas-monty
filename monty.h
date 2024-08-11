@@ -35,9 +35,13 @@ typedef struct instruction_s
     void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-/* Function prototypes */
+/* Function Prototypes */
 void push(stack_t **stack, unsigned int line_number, int n);
 void pall(stack_t **stack, unsigned int line_number);
+void execute(char *file_name);
+void free_stack(stack_t *stack);
+int is_digit(char *str);
+void handle_error(unsigned int line_number, const char *message);
 
 #endif /* MONTY_H */
-
+ 
