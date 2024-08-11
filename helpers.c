@@ -5,6 +5,9 @@ int is_digit(char *str)
     if (str == NULL || *str == '\0')
         return (0);
 
+    if (*str == '-')
+        str++;
+
     while (*str)
     {
         if (*str < '0' || *str > '9')

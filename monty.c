@@ -1,13 +1,5 @@
-#include <ctype.h>  /* Include for isdigit function */
 #include "monty.h"
 
-/**
- * main - Entry point for the Monty Interpreter
- * @argc: Argument count
- * @argv: Argument vector
- *
- * Return: EXIT_SUCCESS on success, EXIT_FAILURE on error
- */
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -21,10 +13,6 @@ int main(int argc, char *argv[])
     return (EXIT_SUCCESS);
 }
 
-/**
- * execute - Executes the bytecodes in the file
- * @file_name: Name of the file to be executed
- */
 void execute(char *file_name)
 {
     FILE *file;
@@ -45,7 +33,7 @@ void execute(char *file_name)
     {
         line_number++;
         char *opcode = strtok(line, " \n");
-        if (opcode && opcode[0] != '#') /* Ignore comments and blank lines */
+        if (opcode && opcode[0] != '#')
         {
             if (strcmp(opcode, "push") == 0)
             {
@@ -53,7 +41,10 @@ void execute(char *file_name)
                 if (arg && is_digit(arg))
                     push(&stack, line_number, atoi(arg));
                 else
-                    handle_error(line_number, "usage: push integer");
+                {
+                    fprintf(stderr, "L%u: usage: push integer\n", line_number);
+                    exit(EXIT_FAILURE);
+                }
             }
             else if (strcmp(opcode, "pall") == 0)
             {
@@ -61,7 +52,8 @@ void execute(char *file_name)
             }
             else
             {
-                handle_error(line_number, "unknown instruction");
+                fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
+                exit(EXIT_FAILURE);
             }
         }
     }
