@@ -60,6 +60,7 @@ void execute(char *file_name)
 		if (opcode && opcode[0] != '#')
 		{
 			char *arg = strtok(NULL, " \n");
+
 			handle_opcode(opcode, &stack, line_number, arg);
 
 		}
