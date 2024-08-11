@@ -1,5 +1,12 @@
 #include "monty.h"
 
+/**
+ * main - Entry point for the Monty Interpreter.
+ * @argc: Argument count.
+ * @argv: Argument vector.
+ *
+ * Return: EXIT_SUCCESS on success, EXIT_FAILURE on error.
+ */
 int main(int argc, char *argv[])
 {
 	if (argc != 2)
@@ -13,28 +20,14 @@ int main(int argc, char *argv[])
 	return (EXIT_SUCCESS);
 }
 
-void handle_opcode(char *opcode, stack_t **stack,
-				   unsigned int line_number, char *arg)
-{
-	if (strcmp(opcode, "push") == 0)
-	{
-		if (arg && is_digit(arg))
-			push(stack, line_number, atoi(arg));
-		else
-			handle_error(line_number, "usage: push integer");
-	}
-	else if (strcmp(opcode, "pall") == 0)
-	{
-		pall(stack, line_number);
-	}
-	else
-	{
-		fprintf(stderr, "L%u: unknown instruction %s\n",
-				line_number, opcode);
-		exit(EXIT_FAILURE);
-	}
-}
-
+/**
+ * execute - Executes the bytecodes in the file.
+ * @file_name: Name of the file to be executed.
+ *
+ * Description: This function opens the file, reads the bytecodes line by line,
+ * and processes each opcode. It handles errors like file opening failures,
+ * unknown instructions, and more.
+ */
 void execute(char *file_name)
 {
 	FILE *file;
@@ -62,13 +55,12 @@ void execute(char *file_name)
 			char *arg = strtok(NULL, " \n");
 
 			handle_opcode(opcode, &stack, line_number, arg);
-
 		}
 	}
 
-	/* Ensure a blank line after any additional declarations */
 	free(line);
 	fclose(file);
 	free_stack(stack);
 }
+
 
