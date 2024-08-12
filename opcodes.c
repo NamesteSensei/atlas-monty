@@ -1,6 +1,19 @@
 #include "monty.h"
 
 /**
+ * nop - Dosent't do anything.
+ * @stack: Double pointer to the top of the stack.
+ * @line_number: The current line number in the bytecode file.
+ *
+ * Description: The nop opcode does nothing. It's just a placeholder.
+ */
+void nop(stack_t **stack, unsigned int line_number)
+{
+	(void)stack; /* Suppress unused variable warning */
+	(void)line_number; /* Suppress unused variable warning */
+}
+
+/**
  * push - Pushes an element to the stack.
  * @stack: Double pointer to the top of the stack.
  * @line_number: The current line number in the bytecode file.
